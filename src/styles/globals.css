@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --brand: #ff6a00;
+  --brand-dark: #d65a00;
+  --tealish: #10a89a;
+}
+
+html,body,#root{
+  height:100%;
+}
+
+.hero-bg{
+  background-image: url('/hero.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay{
+  background: linear-gradient(90deg, rgba(8,178,166,0.85) 0%, rgba(58,123,213,0.7) 50%, rgba(148,67,255,0.45) 100%);
+}
+
+.pill-tab{
+  @apply px-4 py-2 rounded-full bg-white/90 text-sm font-medium shadow-sm transition-all duration-200;
+}
+
+.pill-tab:hover{
+  @apply scale-105 bg-white;
+}
+
+.btn-brand{
+  background: linear-gradient(90deg,var(--tealish),var(--brand));
+  color: white;
+}
+
+/* Search bar specific */
+.search-input{
+  @apply bg-transparent outline-none text-sm w-full;
+}
+
+@media (max-width: 768px){
+  .hero-overlay{ background: linear-gradient(180deg, rgba(8,178,166,0.88) 0%, rgba(58,123,213,0.82) 60%); }
+}
+
+/* Animations */
+@keyframes slideUp{
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn{
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-up{
+  animation: slideUp 420ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+.animate-fade-in{
+  animation: fadeIn 520ms ease both;
+}
+
+/* Focus and accessibility */
+.focus-ring:focus{
+  box-shadow: 0 0 0 4px rgba(24,178,167,0.12);
+}
+
+/* small screen tweaks */
+@media (max-width: 480px){
+  .pill-tab{ @apply px-3 py-1.5 text-xs; }
+  .btn-brand{ @apply px-4 py-2 text-sm; }
+  .hero-bg{ min-height: 520px; }
+}
+
+/* Skip link for keyboard users */
+.skip-link{
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus{
+  position: static;
+  left: auto;
+  width: auto;
+  height: auto;
+  margin: 8px;
+  padding: 8px 12px;
+  background: white;
+  color: #111827;
+  z-index: 60;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+}
+
+/* Respect user reduced motion preference */
+@media (prefers-reduced-motion: reduce){
+  .animate-slide-up,
+  .animate-fade-in,
+  .pill-tab,
+  .btn-brand,
+  .search-input{
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Hide scrollbars in the services tabs while keeping the scroll behavior */
+.services-tabs{
+  overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.services-tabs::-webkit-scrollbar{
+  display: none; /* Chrome, Safari, Opera */
+  height: 0; /* ensure horizontal scrollbar area removed */
+}
+
+
