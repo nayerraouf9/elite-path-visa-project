@@ -1,0 +1,26 @@
+{
+  "url": "https://elite-path-visa-project-lngxx848i-nayer-raoufs-projects.vercel.app/visas/united-states",
+  "time": "2025-11-24T16:56:11.231Z",
+  "results": [
+    {
+      "name": "desktop",
+      "baseline": "d:\\Elite Path\\e2e\\visual.spec.ts-snapshots\\checkout-modal-desktop-chromium-win32.png",
+      "captured": "d:\\Elite Path\\tmp\\checkout-modal-desktop-prod.png",
+      "equal": true,
+      "numDiff": 0,
+      "total": 483840,
+      "percent": 0,
+      "diffPath": "d:\\Elite Path\\tmp\\diff-desktop.png"
+    },
+    {
+      "name": "mobile",
+      "baseline": "d:\\Elite Path\\e2e\\visual.spec.ts-snapshots\\checkout-modal-mobile-chromium-win32.png",
+      "captured": "d:\\Elite Path\\tmp\\checkout-modal-mobile-prod.png",
+      "equal": true,
+      "numDiff": 0,
+      "total": 296625,
+      "percent": 0,
+      "diffPath": "d:\\Elite Path\\tmp\\diff-mobile.png"
+    }
+  ]
+}

@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest --environment jsdom"
-    ,
+    "test": "vitest --environment jsdom",
     "test:e2e": "playwright test"
   },
   "dependencies": {
@@ -26,6 +25,8 @@
     "@types/react": "19.2.6",
     "autoprefixer": "^10.4.14",
     "jsdom": "^27.2.0",
+    "pixelmatch": "^7.1.0",
+    "pngjs": "^7.0.0",
     "postcss": "^8.4.24",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.2.2",

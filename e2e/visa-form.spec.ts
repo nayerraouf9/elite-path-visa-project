@@ -19,9 +19,8 @@ test.describe('Visa search form validation', () => {
     await countryTo.selectOption('');
     await nationality.selectOption('');
     await living.selectOption('');
-    // specifically clear the date using the clear button
-    const clearDate = page.locator('button[aria-label="Clear date"]');
-    await clearDate.click();
+    // Clear the hidden date input directly (sr-only clear button is not clickable in headless)
+    await page.fill('input[data-testid="travel-date-input"]', '');
 
     // Wait a tick for React updates
     await page.waitForTimeout(200);

@@ -5,8 +5,9 @@ test('checkout modal snapshots (desktop + mobile)', async ({ page }) => {
   await page.goto('http://localhost:3000/visas/united-states');
   await page.waitForLoadState('networkidle');
 
-  // Click the Add to Cart button on the visa page
-  const addBtn = page.getByRole('button', { name: 'Add to Cart' });
+  // Click the Add to Cart button on the visa page (robust locator)
+  const addBtn = page.locator('button:has-text("Add to Cart")').first();
+  await addBtn.waitFor({ state: 'visible', timeout: 5000 });
   await addBtn.click();
 
   // Open the cart via the header cart button (aria-label="Cart")
