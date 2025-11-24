@@ -15,7 +15,7 @@ interface CartContextType {
   addToCart: (item: CartItem) => string;
   clearCart: () => void;
   removeFromCart: (id: string) => void;
-  lastRemovedStack: { uid: string; item: CartItem; expiresAt: number }[];
+  lastRemovedStack: { uid: string; item: CartItem; expiresAt: number; originalIndex: number }[];
   undoRemove: (uid?: string) => void;
   dismissUndo: (uid: string) => void;
   isCheckoutModalOpen: boolean;
@@ -27,7 +27,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-  const [lastRemovedStack, setLastRemovedStack] = useState<{ uid: string; item: CartItem; expiresAt: number }[]>([]);
+  const [lastRemovedStack, setLastRemovedStack] = useState<{ uid: string; item: CartItem; expiresAt: number; originalIndex: number }[]>([]);
   const clearTimersRef = React.useRef<Record<string, number>>({});
 
   // restore undo stack from sessionStorage on mount
@@ -35,7 +35,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const raw = sessionStorage.getItem('undoStack');
       if (!raw) return;
-      const parsed: { uid: string; item: CartItem; expiresAt: number }[] = JSON.parse(raw);
+      const parsedRaw: any = JSON.parse(raw);
+      const parsed: { uid: string; item: CartItem; expiresAt: number; originalIndex: number }[] = (parsedRaw || []).map((p: any) => ({ uid: p.uid, item: p.item, expiresAt: p.expiresAt, originalIndex: typeof p.originalIndex === 'number' ? p.originalIndex : 0 }));
       const now = Date.now();
       const valid = parsed.filter(p => p.expiresAt > now);
       if (valid.length === 0) return;
@@ -82,7 +83,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (item) {
         const uid = `${Date.now()}-${Math.random().toString(36).slice(2,9)}`;
         const expiresAt = Date.now() + 8000;
-        setLastRemovedStack(stack => [{ uid, item, expiresAt }, ...stack]);
+        const originalIndex = prev.findIndex(i => i.id === id);
+        // push new entry and cap stack to 3 entries
+        setLastRemovedStack(stack => {
+          const next = [{ uid, item, expiresAt, originalIndex }, ...stack].slice(0, 3);
+          return next;
+        });
         // set timer to auto-dismiss this undo entry
         const t = window.setTimeout(() => {
           // remove from stack when timer expires
@@ -101,8 +107,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const targetUid = uid || stack[0].uid;
       const found = stack.find(s => s.uid === targetUid);
       if (!found) return stack;
-      // restore the item to cart
-      setCartItems(prev => [...prev, found.item]);
+      // restore the item to cart at original index (bounded)
+      setCartItems(prev => {
+        const idx = Math.max(0, Math.min(found.originalIndex, prev.length));
+        const next = [...prev];
+        next.splice(idx, 0, found.item);
+        return next;
+      });
       // clear timer
       const t = clearTimersRef.current[targetUid];
       if (t) {
