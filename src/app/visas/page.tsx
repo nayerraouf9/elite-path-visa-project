@@ -92,7 +92,7 @@ export default function VisaPage() {
                 <span className="text-slate-600 text-xs mb-1">Travel Date</span>
                 <div className="relative flex items-center gap-2">
                   <DatePicker value={date} onChange={(v)=>setDate(v)} />
-                  <button type="button" aria-label="Clear date" className="text-sm text-slate-500 hover:text-slate-700" onClick={()=>setDate('')}>Clear</button>
+                  <button type="button" aria-label="Clear date" className="sr-only" onClick={()=>setDate('')}>Clear</button>
                   {/* Hidden date input to allow e2e tests to set date directly */}
                   <input aria-label="Travel Date Input" type="date" value={date} onChange={(e)=>setDate(e.target.value)} className="sr-only" />
                 </div>
