@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 
 export type CartItem = {
   visaType: string;
-  travelDate: string;
+  travelDate: string | null;
   processingType: string;
   count: number;
   totalPrice: number;
