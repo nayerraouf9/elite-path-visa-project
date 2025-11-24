@@ -55,7 +55,7 @@ export default function VisaPage() {
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 w-full">
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Visa For</span>
-                <select value={visaFor} onChange={(e) => setVisaFor(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
+                <select data-testid="visa-for-select" value={visaFor} onChange={(e) => setVisaFor(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
                   <option value="">-- Select --</option>
                   <option>Tourist</option>
                   <option>Business</option>
@@ -66,7 +66,7 @@ export default function VisaPage() {
 
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Country Going To</span>
-                <select value={countryTo} onChange={(e) => setCountryTo(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
+                <select data-testid="country-to-select" value={countryTo} onChange={(e) => setCountryTo(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
                   <option value="">-- Select --</option>
                   {COUNTRIES.map(c => (<option key={c} value={c}>{c}</option>))}
                 </select>
@@ -74,7 +74,7 @@ export default function VisaPage() {
 
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Select Nationality</span>
-                <select value={nationality} onChange={(e) => setNationality(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
+                <select data-testid="nationality-select" value={nationality} onChange={(e) => setNationality(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
                   <option value="">-- Select --</option>
                   {COUNTRIES.map(c => (<option key={`nat-${c}`} value={c}>{c}</option>))}
                 </select>
@@ -82,7 +82,7 @@ export default function VisaPage() {
 
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Select Living</span>
-                <select value={living} onChange={(e) => setLiving(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
+                <select data-testid="living-select" value={living} onChange={(e) => setLiving(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
                   <option value="">-- Select --</option>
                   {COUNTRIES.map(c => (<option key={`live-${c}`} value={c}>{c}</option>))}
                 </select>
@@ -102,6 +102,7 @@ export default function VisaPage() {
             {/* Search button on the right */}
             <div className="w-full md:w-auto md:pl-3">
               <button
+                data-testid="search-button"
                 type="submit"
                 className={`w-full md:w-44 h-full text-lg rounded-xl font-bold text-white transition-opacity ${!isSearchEnabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600'}`}
                 disabled={!isSearchEnabled}
