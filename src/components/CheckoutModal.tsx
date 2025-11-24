@@ -86,13 +86,6 @@ export default function CheckoutModal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex, cartItems]);
 
-  // Early return after all hooks
-  if (!isCheckoutModalOpen) {
-    return null;
-  }
-
-  const selected = cartItems[selectedIndex];
-
   const modalRef = React.useRef<HTMLDivElement | null>(null);
 
   // Focus trap: keep focus inside the modal when open and restore on close
@@ -156,6 +149,13 @@ export default function CheckoutModal() {
       } catch (e) {}
     };
   }, [isCheckoutModalOpen]);
+
+  // Early return after all hooks
+  if (!isCheckoutModalOpen) {
+    return null;
+  }
+
+  const selected = cartItems[selectedIndex];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
