@@ -111,9 +111,21 @@ export default function CheckoutModal() {
 }
 
 function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, removeFromCart, selected, setStep }: any){
+  const listRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    // Scroll the selected item into view when selection changes
+    if (!listRef.current) return;
+    const el = listRef.current.querySelector(`[data-index=\"${selectedIndex}\"]`) as HTMLElement | null;
+    if (el) {
+      try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { el.scrollIntoView(); }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedIndex, cartItems.length]);
+
   return (
     <div className="bg-white rounded-xl shadow p-0 mt-2 flex flex-col md:flex-row w-full">
-      <div className="flex-1 p-4 md:p-6 w-full">
+      <div ref={listRef} className="flex-1 p-4 md:p-6 w-full">
         <div className="flex items-center gap-2 md:gap-4 mb-4"><span className="text-2xl text-amber-500"><i className="fa fa-user-group" /></span><span className="font-bold text-xl">Lead Passenger Details</span></div>
         <form className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mb-4 text-sm md:text-base" autoComplete="off">
           <div>
@@ -176,7 +188,7 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
           <div className="flex items-center gap-2 mb-4"><span className="text-amber-500"><i className="fa fa-file-invoice" /></span><span className="font-bold text-lg">Visa Cart Summary</span></div>
           {cartItems.length === 0 && <div className="text-sm text-slate-500">Your cart is empty.</div>}
           {cartItems.map((item:any, idx:number)=> (
-            <label key={item.id || idx} className={`block mb-3 p-2 bg-white rounded border ${selectedIndex===idx ? 'border-amber-300' : 'border-transparent'}`}>
+            <label data-index={idx} data-item-id={item.id} key={item.id || idx} className={`block mb-3 p-2 bg-white rounded border ${selectedIndex===idx ? 'border-amber-300' : 'border-transparent'}`}>
               <div className="flex justify-between items-start">
                 <div className="text-sm">
                   <div className="font-semibold flex items-center gap-2">
