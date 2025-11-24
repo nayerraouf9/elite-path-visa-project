@@ -20,6 +20,8 @@ interface CartContextType {
   dismissUndo: (uid: string) => void;
   isCheckoutModalOpen: boolean;
   setIsCheckoutModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  lastAddedItemId?: string | null;
+  setLastAddedItemId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -28,6 +30,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [lastRemovedStack, setLastRemovedStack] = useState<{ uid: string; item: CartItem; expiresAt: number; originalIndex: number }[]>([]);
+  const [lastAddedItemId, setLastAddedItemId] = useState<string | null>(null);
   const clearTimersRef = React.useRef<Record<string, number>>({});
 
   // restore undo stack from sessionStorage on mount
@@ -71,6 +74,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const addToCart = (item: CartItem): string => {
     const id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2,9)}`;
     setCartItems(prev => [...prev, { ...item, id }]);
+    // remember last added item id so modals can pre-select it
+    setLastAddedItemId(id);
     return id;
   };
 
@@ -135,7 +140,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, clearCart, removeFromCart, lastRemovedStack, undoRemove, dismissUndo, isCheckoutModalOpen, setIsCheckoutModalOpen }}>
+    <CartContext.Provider value={{ cartItems, addToCart, clearCart, removeFromCart, lastRemovedStack, undoRemove, dismissUndo, isCheckoutModalOpen, setIsCheckoutModalOpen, lastAddedItemId, setLastAddedItemId }}>
       {children}
     </CartContext.Provider>
   );

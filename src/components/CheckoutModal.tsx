@@ -7,7 +7,7 @@ import Price from './Price'
 type Passenger = { title: string; gender: string; birthDate: string; firstName: string; lastName: string; passportNo: string; nationality: string };
 
 export default function CheckoutModal() {
-  const { cartItems, removeFromCart, isCheckoutModalOpen, setIsCheckoutModalOpen, lastRemovedStack, undoRemove, dismissUndo } = useCart();
+  const { cartItems, removeFromCart, isCheckoutModalOpen, setIsCheckoutModalOpen, lastRemovedStack, undoRemove, dismissUndo, lastAddedItemId, setLastAddedItemId } = useCart();
   const [step, setStep] = useState(1);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [lead, setLead] = useState({ title: 'Mr.', firstName: '', lastName: '', email: '', nationality: '', isd: '', phone: '' });
@@ -25,6 +25,19 @@ export default function CheckoutModal() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCheckoutModalOpen, cartItems.length]);
+
+  // If a new item was added immediately prior to opening the modal, select it
+  useEffect(() => {
+    if (!isCheckoutModalOpen) return;
+    if (!lastAddedItemId) return;
+    const idx = cartItems.findIndex(i => i.id === lastAddedItemId);
+    if (idx >= 0) {
+      setSelectedIndex(idx);
+    }
+    // clear the marker so subsequent opens don't auto-select
+    setLastAddedItemId(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCheckoutModalOpen]);
 
   
 
