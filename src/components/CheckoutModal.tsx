@@ -119,6 +119,21 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
     const el = listRef.current.querySelector(`[data-index=\"${selectedIndex}\"]`) as HTMLElement | null;
     if (el) {
       try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { el.scrollIntoView(); }
+      // After scrolling, focus the radio control (or nearest focusable element) for accessibility
+      try {
+        const radio = el.querySelector('input[type="radio"]') as HTMLElement | null;
+        if (radio && typeof radio.focus === 'function') {
+          // prevent additional scrolling when focusing
+          radio.focus({ preventScroll: true } as FocusOptions);
+        } else {
+          const focusable = el.querySelector('button, [tabindex], a, input, select, textarea') as HTMLElement | null;
+          if (focusable && typeof focusable.focus === 'function') {
+            focusable.focus({ preventScroll: true } as FocusOptions);
+          }
+        }
+      } catch (err) {
+        // ignore focus errors
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex, cartItems.length]);
