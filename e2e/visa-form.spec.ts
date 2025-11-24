@@ -8,14 +8,17 @@ test.describe('Visa search form validation', () => {
     await page.goto('http://localhost:3000/visas');
     await page.waitForLoadState('networkidle');
 
-    const searchBtn = page.getByRole('button', { name: 'Search' });
+    const searchBtn = page.getByTestId('search-button');
 
-    // Clear selects by selecting the empty option (operate on each select in the form)
-    const selects = page.locator('form select');
-    await selects.nth(0).selectOption('');
-    await selects.nth(1).selectOption('');
-    await selects.nth(2).selectOption('');
-    await selects.nth(3).selectOption('');
+    // Clear selects by selecting the empty option using testids
+    const visaFor = page.getByTestId('visa-for-select');
+    const countryTo = page.getByTestId('country-to-select');
+    const nationality = page.getByTestId('nationality-select');
+    const living = page.getByTestId('living-select');
+    await visaFor.selectOption('');
+    await countryTo.selectOption('');
+    await nationality.selectOption('');
+    await living.selectOption('');
     // specifically clear the date using the clear button
     const clearDate = page.locator('button[aria-label="Clear date"]');
     await clearDate.click();
@@ -26,11 +29,11 @@ test.describe('Visa search form validation', () => {
     await expect(searchBtn).toBeDisabled();
     await expect(page.getByText('Please fill all fields to search.')).toBeVisible();
 
-    // Fill the selects with valid values
-    await selects.nth(0).selectOption('Tourist');
-    await selects.nth(1).selectOption('Austria');
-    await selects.nth(2).selectOption('United Arab Emirates');
-    await selects.nth(3).selectOption('United Arab Emirates');
+    // Fill the selects with valid values using testids
+    await visaFor.selectOption('Tourist');
+    await countryTo.selectOption('Austria');
+    await nationality.selectOption('United Arab Emirates');
+    await living.selectOption('United Arab Emirates');
 
     // Set a travel date using the hidden date input (easier for e2e)
     await page.fill('input[data-testid="travel-date-input"]', '2025-12-25');
