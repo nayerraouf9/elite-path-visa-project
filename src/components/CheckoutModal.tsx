@@ -101,8 +101,8 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
   return (
     <div className="bg-white rounded-xl shadow p-0 mt-2 flex flex-col md:flex-row w-full">
       <div className="flex-1 p-4 md:p-6 w-full">
-        <div className="flex items-center gap-2 mb-4"><span className="text-2xl text-amber-500"><i className="fa fa-user-group" /></span><span className="font-bold text-xl">Lead Passenger Details</span></div>
-        <form className="grid grid-cols-3 gap-4 mb-4" autoComplete="off">
+        <div className="flex items-center gap-2 md:gap-4 mb-4"><span className="text-2xl text-amber-500"><i className="fa fa-user-group" /></span><span className="font-bold text-xl">Lead Passenger Details</span></div>
+        <form className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mb-4 text-sm md:text-base" autoComplete="off">
           <div>
             <select
               className="w-full border rounded-md p-2"
@@ -115,42 +115,42 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
             </select>
           </div>
                   <input
-                    className="w-full border rounded-md p-2"
+                    className="w-full border rounded-md p-2 text-sm md:text-base"
                     placeholder="First Name *"
                     value={lead.firstName}
                     onChange={e => setLead((prev:any) => ({ ...prev, firstName: e.target.value }))}
                     autoComplete="off"
                   />
           <input
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2 text-sm md:text-base"
             placeholder="Last Name *"
             value={lead.lastName}
             onChange={e => setLead((prev:any) => ({ ...prev, lastName: e.target.value }))}
             autoComplete="off"
           />
           <input
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2 text-sm md:text-base"
             placeholder="Email Address *"
             value={lead.email}
             onChange={e => setLead((prev:any) => ({ ...prev, email: e.target.value }))}
             autoComplete="off"
           />
           <input
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2 text-sm md:text-base"
             placeholder="Nationality"
             value={lead.nationality}
             onChange={e => setLead((prev:any) => ({ ...prev, nationality: e.target.value }))}
             autoComplete="off"
           />
           <input
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2 text-sm md:text-base"
             placeholder="ISD Code"
             value={lead.isd}
             onChange={e => setLead((prev:any) => ({ ...prev, isd: e.target.value }))}
             autoComplete="off"
           />
           <input
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2 text-sm md:text-base"
             placeholder="Phone Number *"
             value={lead.phone}
             onChange={e => setLead((prev:any) => ({ ...prev, phone: e.target.value }))}
