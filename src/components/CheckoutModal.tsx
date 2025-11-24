@@ -1,14 +1,17 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { useCart } from '../context/CartContext'
+import UndoToast from './UndoToast'
 import Price from './Price'
 
+type Passenger = { title: string; gender: string; birthDate: string; firstName: string; lastName: string; passportNo: string; nationality: string };
+
 export default function CheckoutModal() {
-  const { cartItems, removeFromCart, isCheckoutModalOpen, setIsCheckoutModalOpen } = useCart();
+  const { cartItems, removeFromCart, isCheckoutModalOpen, setIsCheckoutModalOpen, lastRemovedStack, undoRemove, dismissUndo } = useCart();
   const [step, setStep] = useState(1);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [lead, setLead] = useState({ title: 'Mr.', firstName: '', lastName: '', email: '', nationality: '', isd: '', phone: '' });
-  const [passengers, setPassengers] = useState<any[]>([]);
+  const [passengers, setPassengers] = useState<Passenger[]>([]);
   const [agree, setAgree] = useState(false);
   const [method, setMethod] = useState('card');
   
@@ -28,7 +31,7 @@ export default function CheckoutModal() {
   useEffect(() => {
     const sel = cartItems[selectedIndex];
     if (sel) {
-      setPassengers(Array(sel.count).fill({ title: 'Mr.', gender: 'Male', birthDate: '', firstName: '', lastName: '', passportNo: '', nationality: '' }));
+      setPassengers(Array.from({ length: sel.count }, () => ({ title: 'Mr.', gender: 'Male', birthDate: '', firstName: '', lastName: '', passportNo: '', nationality: '' })));
     } else {
       setPassengers([]);
     }
@@ -87,6 +90,8 @@ export default function CheckoutModal() {
             setIsCheckoutModalOpen={setIsCheckoutModalOpen}
           />
         )}
+        {/* Undo toast for removals */}
+        <UndoToast stack={lastRemovedStack} onUndo={undoRemove} onDismiss={dismissUndo} />
       </div>
     </div>
   );
@@ -195,7 +200,7 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
   );
 }
 
-function Step2({ selected, setStep, passengers, setPassengers, agree, setAgree, method, setMethod }: any){
+function Step2({ selected, setStep, passengers, setPassengers, agree, setAgree, method, setMethod }: { selected: any; setStep: any; passengers: Passenger[]; setPassengers: React.Dispatch<React.SetStateAction<Passenger[]>>; agree: boolean; setAgree: React.Dispatch<React.SetStateAction<boolean>>; method: string; setMethod: React.Dispatch<React.SetStateAction<string>> }){
   return (
     <div className="bg-white rounded-xl shadow p-0 mt-2 flex max-w-4xl mx-auto">
       <div className="flex-1 p-6">
@@ -207,23 +212,23 @@ function Step2({ selected, setStep, passengers, setPassengers, agree, setAgree, 
           </label>
         </div>
         <div className="font-bold text-lg mb-2 flex items-center gap-2"><span className="text-amber-500"><i className="fa fa-passport" /></span> {selected?.visaType}</div>
-        {passengers.map((p:any, idx:number) => (
+        {passengers.map((p, idx:number) => (
           <div key={idx} className="mb-6 border-b pb-6">
             <div className="font-semibold mb-2">Passenger {idx+1}</div>
             <form className="grid grid-cols-3 gap-4 mb-2">
-              <select className="w-full border rounded-md p-2" value={p.title} onChange={e=>setPassengers((arr:any)=>arr.map((x:any,i:number)=>i===idx?{...x,title:e.target.value}:x))}>
+              <select className="w-full border rounded-md p-2" value={p.title} onChange={e=>setPassengers((arr)=>arr.map((x,i:number)=>i===idx?{...x,title:e.target.value}:x))}>
                 <option>Mr.</option>
                 <option>Ms.</option>
               </select>
-              <input className="w-full border rounded-md p-2" placeholder="First Name *" value={p.firstName} onChange={e=>setPassengers((arr:any)=>arr.map((x:any,i:number)=>i===idx?{...x,firstName:e.target.value}:x))} />
-              <input className="w-full border rounded-md p-2" placeholder="Last Name *" value={p.lastName} onChange={e=>setPassengers((arr:any)=>arr.map((x:any,i:number)=>i===idx?{...x,lastName:e.target.value}:x))} />
+              <input className="w-full border rounded-md p-2" placeholder="First Name *" value={p.firstName} onChange={e=>setPassengers((arr)=>arr.map((x,i:number)=>i===idx?{...x,firstName:e.target.value}:x))} />
+              <input className="w-full border rounded-md p-2" placeholder="Last Name *" value={p.lastName} onChange={e=>setPassengers((arr)=>arr.map((x,i:number)=>i===idx?{...x,lastName:e.target.value}:x))} />
               <select className="w-full border rounded-md p-2" value={p.gender} onChange={e=>setPassengers((arr:any)=>arr.map((x:any,i:number)=>i===idx?{...x,gender:e.target.value}:x))}>
                 <option>Male</option>
                 <option>Female</option>
               </select>
-              <input className="w-full border rounded-md p-2" placeholder="Passport No *" value={p.passportNo} onChange={e=>setPassengers((arr:any)=>arr.map((x:any,i:number)=>i===idx?{...x,passportNo:e.target.value}:x))} />
-              <input className="w-full border rounded-md p-2" placeholder="Nationality" value={p.nationality} onChange={e=>setPassengers((arr:any)=>arr.map((x:any,i:number)=>i===idx?{...x,nationality:e.target.value}:x))} />
-              <input type="date" className="w-full border rounded-md p-2" placeholder="Birth Date *" value={p.birthDate} onChange={e=>setPassengers((arr:any)=>arr.map((x:any,i:number)=>i===idx?{...x,birthDate:e.target.value}:x))} />
+              <input className="w-full border rounded-md p-2" placeholder="Passport No *" value={p.passportNo} onChange={e=>setPassengers((arr)=>arr.map((x,i:number)=>i===idx?{...x,passportNo:e.target.value}:x))} />
+              <input className="w-full border rounded-md p-2" placeholder="Nationality" value={p.nationality} onChange={e=>setPassengers((arr)=>arr.map((x,i:number)=>i===idx?{...x,nationality:e.target.value}:x))} />
+              <input type="date" className="w-full border rounded-md p-2" placeholder="Birth Date *" value={p.birthDate} onChange={e=>setPassengers((arr)=>arr.map((x,i:number)=>i===idx?{...x,birthDate:e.target.value}:x))} />
             </form>
           </div>
         ))}

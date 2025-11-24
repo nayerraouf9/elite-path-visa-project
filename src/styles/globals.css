@@ -63,6 +63,22 @@ html,body,#root{
   animation: fadeIn 520ms ease both;
 }
 
+/* Toast animations for Undo stack */
+@keyframes toastSlideIn {
+  from { transform: translateY(12px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.toast-item{
+  animation: toastSlideIn 260ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+.toast-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+}
+
 /* Focus and accessibility */
 .focus-ring:focus{
   box-shadow: 0 0 0 4px rgba(24,178,167,0.12);

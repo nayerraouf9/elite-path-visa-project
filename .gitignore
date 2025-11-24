@@ -26,3 +26,4 @@ coverage/
 package-lock.json
 pnpm-lock.yaml
 yarn.locknode_modules
+.vercel
