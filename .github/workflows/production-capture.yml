@@ -38,6 +38,11 @@ jobs:
         run: |
           node tmp/capture_and_diff.js
 
+      - name: Check diffs
+        id: check_diffs
+        run: |
+          node -e "const fs=require('fs'); const o='tmp/capture_diff_report.json'; let has=false; if(fs.existsSync(o)){ try{ const r=JSON.parse(fs.readFileSync(o,'utf8')); if(Array.isArray(r.results) && r.results.some(x=> (x.numDiff && x.numDiff>0) || x.equal===false)) has=true; }catch(e){} } fs.appendFileSync(process.env.GITHUB_OUTPUT, `has_diff=${has}\n`); console.log('has_diff=',has);"
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -50,6 +55,7 @@ jobs:
             tmp/diff-mobile.png
 
       - name: Commit artifacts into repo (timestamped folder)
+        if: steps.check_diffs.outputs.has_diff == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
