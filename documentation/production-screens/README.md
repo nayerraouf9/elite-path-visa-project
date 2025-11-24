@@ -2,13 +2,14 @@
 
 This folder contains production captures and the automated comparison report for the Checkout Modal on the `/visas/united-states` page.
 
-Files included
-- `checkout-modal-desktop-prod.png` — Desktop screenshot captured from production (1280×720 viewport).
-- `checkout-modal-mobile-prod.png` — Mobile screenshot captured from production (375×667 viewport).
-- `capture_diff_report.json` — JSON report produced by the capture and diff script; contains per-device results, pixel counts, and timestamps.
+Files included (moved into timestamped folder `modal-2025-11-24T1656Z`)
+- `modal-2025-11-24T1656Z/checkout-modal-desktop-prod.png` — Desktop screenshot captured from production (1280×720 viewport).
+- `modal-2025-11-24T1656Z/checkout-modal-mobile-prod.png` — Mobile screenshot captured from production (375×667 viewport).
+- `modal-2025-11-24T1656Z/capture_diff_report.json` — JSON report produced by the capture and diff script; contains per-device results, pixel counts, and timestamps.
 
 Captured
-- Timestamp (UTC): 2025-11-24T16:56:11Z — capture and diff run performed against the production URL `https://elite-path-visa-project-lngxx848i-nayer-raoufs-projects.vercel.app/visas/united-states`.
+Timestamp (UTC): 2025-11-24T16:56:11Z — capture and diff run performed against the production URL `https://elite-path-visa-project-lngxx848i-nayer-raoufs-projects.vercel.app/visas/united-states`.
+Files are stored under `documentation/production-screens/modal-2025-11-24T1656Z/`.
 
 How these were generated
 - Script: `tmp/capture_and_diff.js` — a Playwright script that:
