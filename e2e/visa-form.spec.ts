@@ -33,7 +33,7 @@ test.describe('Visa search form validation', () => {
     await selects.nth(3).selectOption('United Arab Emirates');
 
     // Set a travel date using the hidden date input (easier for e2e)
-    await page.fill('input[aria-label="Travel Date Input"]', '2025-12-25');
+    await page.fill('input[data-testid="travel-date-input"]', '2025-12-25');
     await page.waitForTimeout(200);
 
     await expect(searchBtn).toBeEnabled();

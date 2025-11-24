@@ -29,9 +29,9 @@ jobs:
           # Also run with the default reporter to produce the HTML report and snapshots
           npx playwright test --project=chromium --reporter=list || true
 
-      - name: Assert visa-form.spec.ts ran
+      - name: Assert visa-form.spec.ts ran and passed
         run: |
-          node -e "const fs=require('fs'); const r=fs.readFileSync('playwright-results.json','utf8'); if(!r.includes('e2e/visa-form.spec.ts')){console.error('ERROR: e2e/visa-form.spec.ts not present in Playwright results'); process.exit(1);} console.log('Confirmed: e2e/visa-form.spec.ts ran');"
+          node -e "const fs=require('fs'); const p='playwright-results.json'; if(!fs.existsSync(p)){console.error('ERROR: playwright-results.json not found'); process.exit(1);} const txt=fs.readFileSync(p,'utf8'); let ok=false; try{ const obj=JSON.parse(txt); const s=JSON.stringify(obj); if(s.includes('e2e/visa-form.spec.ts') && s.includes('"status":"passed"')) ok=true; }catch(e){ if(txt.includes('e2e/visa-form.spec.ts') && txt.includes('"status":"passed"')) ok=true; } if(!ok){ console.error('ERROR: e2e/visa-form.spec.ts did not pass or was not found in results'); process.exit(1);} console.log('Confirmed: e2e/visa-form.spec.ts ran and passed');"
 
       - name: Upload Playwright report (on failure)
         if: failure()

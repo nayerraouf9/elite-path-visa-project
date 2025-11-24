@@ -94,7 +94,7 @@ export default function VisaPage() {
                   <DatePicker value={date} onChange={(v)=>setDate(v)} />
                   <button type="button" aria-label="Clear date" className="sr-only" onClick={()=>setDate('')}>Clear</button>
                   {/* Hidden date input to allow e2e tests to set date directly */}
-                  <input aria-label="Travel Date Input" type="date" value={date} onChange={(e)=>setDate(e.target.value)} className="sr-only" />
+                  <input data-testid="travel-date-input" aria-label="Travel Date Input" type="date" value={date} onChange={(e)=>setDate(e.target.value)} className="sr-only" />
                 </div>
               </label>
             </div>
