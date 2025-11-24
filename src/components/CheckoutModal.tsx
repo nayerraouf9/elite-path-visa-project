@@ -121,7 +121,8 @@ export default function CheckoutModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40" onClick={()=>setIsCheckoutModalOpen(false)} />
-      <div ref={modalRef} tabIndex={-1} className="relative w-full max-w-full p-4">
+      <div ref={modalRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title" className="relative w-full max-w-full p-4">
+        <h2 id="checkout-modal-title" className="sr-only">Checkout</h2>
         <div className="flex justify-end mb-2">
           <button className="px-3 py-1 bg-white rounded" onClick={()=>setIsCheckoutModalOpen(false)}>Close</button>
         </div>
