@@ -52,7 +52,7 @@ export default function CheckoutModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40" onClick={()=>setIsCheckoutModalOpen(false)} />
-      <div className="relative w-full max-w-5xl p-4">
+      <div className="relative w-full max-w-full p-4">
         <div className="flex justify-end mb-2">
           <button className="px-3 py-1 bg-white rounded" onClick={()=>setIsCheckoutModalOpen(false)}>Close</button>
         </div>
@@ -99,8 +99,8 @@ export default function CheckoutModal() {
 
 function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, removeFromCart, selected, setStep }: any){
   return (
-    <div className="bg-white rounded-xl shadow p-0 mt-2 flex max-w-4xl mx-auto">
-      <div className="flex-1 p-6">
+    <div className="bg-white rounded-xl shadow p-0 mt-2 flex flex-col md:flex-row w-full">
+      <div className="flex-1 p-4 md:p-6 w-full">
         <div className="flex items-center gap-2 mb-4"><span className="text-2xl text-amber-500"><i className="fa fa-user-group" /></span><span className="font-bold text-xl">Lead Passenger Details</span></div>
         <form className="grid grid-cols-3 gap-4 mb-4" autoComplete="off">
           <div>
@@ -158,7 +158,7 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
           />
         </form>
       </div>
-      <div className="w-96 border-l bg-slate-50 p-6 flex flex-col justify-between">
+      <div className="w-full md:w-96 border-t md:border-l md:border-t-0 bg-slate-50 p-4 md:p-6 flex flex-col justify-between">
         <div>
           <div className="flex items-center gap-2 mb-4"><span className="text-amber-500"><i className="fa fa-file-invoice" /></span><span className="font-bold text-lg">Visa Cart Summary</span></div>
           {cartItems.length === 0 && <div className="text-sm text-slate-500">Your cart is empty.</div>}
@@ -203,7 +203,7 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
 function Step2({ selected, setStep, passengers, setPassengers, agree, setAgree, method, setMethod }: { selected: any; setStep: any; passengers: Passenger[]; setPassengers: React.Dispatch<React.SetStateAction<Passenger[]>>; agree: boolean; setAgree: React.Dispatch<React.SetStateAction<boolean>>; method: string; setMethod: React.Dispatch<React.SetStateAction<string>> }){
   return (
     <div className="bg-white rounded-xl shadow p-0 mt-2 flex max-w-4xl mx-auto">
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-4 md:p-6 w-full">
         <div className="flex items-center gap-2 mb-4"><span className="text-2xl text-amber-500"><i className="fa fa-file-lines" /></span><span className="font-bold text-xl">Extra Details</span></div>
         <div className="mb-4">
           <label className="flex items-center gap-2 cursor-pointer bg-orange-50 rounded p-3">
