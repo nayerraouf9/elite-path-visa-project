@@ -44,8 +44,7 @@ export default function UndoToast({
                       </span>
                     </div>
                     <div className="text-[10px] md:text-xs text-slate-500">
-                      {entry.item.processingType} • {entry.item.travelDate} •{" "}
-                      {entry.item.count} pax
+                      {entry.item.processingType} • {entry.item.travelDate || "—"} • {entry.item.count} pax
                     </div>
                   </div>
                 </div>

@@ -404,8 +404,7 @@ function Step1({
                     </button>
                   </div>
                   <div className="text-xs">
-                    Travel Date:{" "}
-                    <span className="font-medium">{item.travelDate}</span>
+                    Travel Date: <span className="font-medium">{item.travelDate || "—"}</span>
                   </div>
                   <div className="text-xs">
                     Processing:{" "}

@@ -130,8 +130,7 @@ function Step1({ cartItems, onNext, removeFromCart }: any) {
                   <div className="text-sm">
                     <div className="font-semibold">{item.visaType}</div>
                     <div className="text-xs">
-                      Travel Date:{" "}
-                      <span className="font-medium">{item.travelDate}</span>
+                      Travel Date: <span className="font-medium">{item.travelDate || "—"}</span>
                     </div>
                     <div className="text-xs">
                       Processing:{" "}
@@ -449,7 +448,7 @@ export default function CheckoutPage() {
   if (visaTypeParam.includes("United States")) visaTypeParam = "USA VISA B1/B2";
   const cart = {
     visaType: visaTypeParam,
-    travelDate: params.get("travelDate") || "",
+    travelDate: params.get("travelDate") || null,
     processingType: params.get("processingType") || "Normal",
     count: Number(params.get("count")) || 1,
     totalPrice: Number(params.get("totalPrice")) || 1200,
