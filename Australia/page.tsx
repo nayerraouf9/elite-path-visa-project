@@ -1,6 +1,8 @@
 "use client"
 import React, { useState } from 'react'
 import DatePicker from '../src/components/DatePicker'
+import { useCart } from '../src/context/CartContext'
+import CheckoutModal from '../src/components/CheckoutModal'
 
 export default function AustraliaVisaPage(){
   const [processing, setProcessing] = useState('')
@@ -11,7 +13,22 @@ export default function AustraliaVisaPage(){
     setCount(e.target.value);
   };
 
+  const { addToCart, setIsCheckoutModalOpen } = useCart();
+
   const isSearchEnabled = Boolean(processing && travelDate && count && Number(count) > 0)
+
+  const handleAddToCart = () => {
+    const cnt = Number(count) || 1;
+    const newId = addToCart({
+      visaType: 'Australia Visa - subclass 600',
+      travelDate: travelDate,
+      processingType: processing,
+      count: cnt,
+      totalPrice: 1000 * cnt
+    });
+    // open global checkout modal
+    setIsCheckoutModalOpen(true);
+  }
 
   return (
     <main className="min-h-screen bg-slate-50 py-10">
@@ -90,7 +107,7 @@ export default function AustraliaVisaPage(){
 
               <div className="mt-6 border-t pt-4 flex items-center justify-end gap-4">
                 <button className="px-4 py-2 rounded-md border border-amber-300 text-amber-600">Quick Enquiry</button>
-                <button disabled={!isSearchEnabled} className={`px-4 py-2 rounded-md ${isSearchEnabled ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}>Add to Cart</button>
+                <button onClick={handleAddToCart} disabled={!isSearchEnabled} className={`px-4 py-2 rounded-md ${isSearchEnabled ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}>Add to Cart</button>
               </div>
             </div>
 
@@ -103,6 +120,7 @@ export default function AustraliaVisaPage(){
           </div>
         </div>
       </div>
+      <CheckoutModal />
     </main>
   )
 }
