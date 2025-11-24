@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 type Props = {
-  value: string // yyyy-mm-dd
+  value: string // yyyy-mm-dd or empty
   onChange: (v: string) => void
 }
 
@@ -21,13 +21,13 @@ function toDate(value: string) {
 
 export default function DatePicker({ value, onChange }: Props) {
   const [open, setOpen] = useState(false)
-  const [selected, setSelected] = useState<Date>(() => toDate(value))
-  const [viewDate, setViewDate] = useState<Date>(() => new Date(selected.getFullYear(), selected.getMonth(), 1))
+  const [selected, setSelected] = useState<Date | null>(() => value ? toDate(value) : null)
+  const [viewDate, setViewDate] = useState<Date>(() => (selected ? new Date(selected.getFullYear(), selected.getMonth(), 1) : new Date()))
   const [transitionDirection, setTransitionDirection] = useState<'left'|'right'|'none'>('none')
   const rootRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    setSelected(toDate(value))
+    setSelected(value ? toDate(value) : null)
   }, [value])
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function DatePicker({ value, onChange }: Props) {
   return (
     <div className="relative" ref={rootRef} onKeyDown={onKey} style={{overflow: 'visible'}}>
       <button type="button" onClick={() => setOpen(v=>!v)} aria-haspopup="dialog" aria-expanded={open} className="w-full px-3 py-2 rounded-md border border-slate-200 bg-white text-sm text-left flex items-center justify-between">
-        <span className="text-sm text-slate-700">{formatDisplay(selected)}</span>
+        <span className="text-sm text-slate-700">{selected ? formatDisplay(selected) : 'Select date'}</span>
         <svg className="w-5 h-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M8 7l4 4 4-4" /></svg>
       </button>
 

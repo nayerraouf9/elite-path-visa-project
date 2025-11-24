@@ -56,6 +56,7 @@ export default function VisaPage() {
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Visa For</span>
                 <select value={visaFor} onChange={(e) => setVisaFor(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
+                  <option value="">-- Select --</option>
                   <option>Tourist</option>
                   <option>Business</option>
                   <option>Work</option>
@@ -66,6 +67,7 @@ export default function VisaPage() {
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Country Going To</span>
                 <select value={countryTo} onChange={(e) => setCountryTo(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
+                  <option value="">-- Select --</option>
                   {COUNTRIES.map(c => (<option key={c} value={c}>{c}</option>))}
                 </select>
               </label>
@@ -73,6 +75,7 @@ export default function VisaPage() {
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Select Nationality</span>
                 <select value={nationality} onChange={(e) => setNationality(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
+                  <option value="">-- Select --</option>
                   {COUNTRIES.map(c => (<option key={`nat-${c}`} value={c}>{c}</option>))}
                 </select>
               </label>
@@ -80,14 +83,18 @@ export default function VisaPage() {
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Select Living</span>
                 <select value={living} onChange={(e) => setLiving(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
+                  <option value="">-- Select --</option>
                   {COUNTRIES.map(c => (<option key={`live-${c}`} value={c}>{c}</option>))}
                 </select>
               </label>
 
               <label className="flex flex-col text-sm">
                 <span className="text-slate-600 text-xs mb-1">Travel Date</span>
-                <div className="relative">
+                <div className="relative flex items-center gap-2">
                   <DatePicker value={date} onChange={(v)=>setDate(v)} />
+                  <button type="button" aria-label="Clear date" className="text-sm text-slate-500 hover:text-slate-700" onClick={()=>setDate('')}>Clear</button>
+                  {/* Hidden date input to allow e2e tests to set date directly */}
+                  <input aria-label="Travel Date Input" type="date" value={date} onChange={(e)=>setDate(e.target.value)} className="sr-only" />
                 </div>
               </label>
             </div>
@@ -101,6 +108,11 @@ export default function VisaPage() {
               >
                 Search
               </button>
+              {!isSearchEnabled && (
+                <p className="text-red-500 text-xs mt-1 text-center font-medium">
+                  Please fill all fields to search.
+                </p>
+              )}
             </div>
           </form>
         </div>
