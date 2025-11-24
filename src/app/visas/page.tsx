@@ -38,6 +38,14 @@ export default function VisaPage() {
     router.push(`/visas/${slug}`)
   }
 
+  // Enable search only when all fields are provided
+  const isSearchEnabled =
+    visaFor &&
+    countryTo &&
+    nationality &&
+    living &&
+    date
+
   return (
     <main className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-amber-50 via-white to-white py-16">
       <div className="max-w-5xl mx-auto px-6">
@@ -86,7 +94,11 @@ export default function VisaPage() {
 
             {/* Search button on the right */}
             <div className="w-full md:w-auto md:pl-3">
-              <button type="submit" className="w-full md:w-44 bg-amber-500 hover:bg-amber-600 text-white font-semibold px-5 py-3 rounded-lg shadow-md">
+              <button
+                type="submit"
+                className={`w-full md:w-44 h-full text-lg rounded-xl font-bold text-white transition-opacity ${!isSearchEnabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600'}`}
+                disabled={!isSearchEnabled}
+              >
                 Search
               </button>
             </div>
