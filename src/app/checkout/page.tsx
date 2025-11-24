@@ -218,7 +218,7 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-slate-50 py-10">
       <h1 className="text-3xl font-bold text-red-600 text-center mb-8">CHECKOUT ROUTE</h1>
-      <CheckoutModal isOpen={isOpen} onClose={()=>{ setIsOpen(false); try{ router.push('/visas') }catch(e){} }} />
+      <CheckoutModal />
     </div>
   );
 }

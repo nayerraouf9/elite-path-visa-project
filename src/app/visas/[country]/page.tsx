@@ -172,7 +172,7 @@ export default function CountryVisaPage({ params }: { params: { country: string 
               </section>
             )}
       </div>
-      <CheckoutModal isOpen={isModalOpen} initialItemId={initialItemId} onClose={()=>setIsModalOpen(false)} />
+      <CheckoutModal />
     </main>
   )
 }

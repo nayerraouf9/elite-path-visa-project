@@ -50,7 +50,7 @@ export default function CheckoutModal() {
               <select
                 className="w-full border rounded-md p-2"
                 value={lead.title}
-                onChange={e => setLead(lead => ({ ...lead, title: e.target.value }))}
+                onChange={e => setLead(prev => ({ ...prev, title: e.target.value }))}
                 autoComplete="off"
               >
                 <option>Mr.</option>
@@ -61,42 +61,42 @@ export default function CheckoutModal() {
               className="w-full border rounded-md p-2"
               placeholder="First Name *"
               value={lead.firstName}
-              onChange={e => setLead(lead => ({ ...lead, firstName: e.target.value }))}
+              onChange={e => setLead(prev => ({ ...prev, firstName: e.target.value }))}
               autoComplete="off"
             />
             <input
               className="w-full border rounded-md p-2"
               placeholder="Last Name *"
               value={lead.lastName}
-              onChange={e => setLead(lead => ({ ...lead, lastName: e.target.value }))}
+              onChange={e => setLead(prev => ({ ...prev, lastName: e.target.value }))}
               autoComplete="off"
             />
             <input
               className="w-full border rounded-md p-2"
               placeholder="Email Address *"
               value={lead.email}
-              onChange={e => setLead(lead => ({ ...lead, email: e.target.value }))}
+              onChange={e => setLead(prev => ({ ...prev, email: e.target.value }))}
               autoComplete="off"
             />
             <input
               className="w-full border rounded-md p-2"
               placeholder="Nationality"
               value={lead.nationality}
-              onChange={e => setLead(lead => ({ ...lead, nationality: e.target.value }))}
+              onChange={e => setLead(prev => ({ ...prev, nationality: e.target.value }))}
               autoComplete="off"
             />
             <input
               className="w-full border rounded-md p-2"
               placeholder="ISD Code"
               value={lead.isd}
-              onChange={e => setLead(lead => ({ ...lead, isd: e.target.value }))}
+              onChange={e => setLead(prev => ({ ...prev, isd: e.target.value }))}
               autoComplete="off"
             />
             <input
               className="w-full border rounded-md p-2"
               placeholder="Phone Number *"
               value={lead.phone}
-              onChange={e => setLead(lead => ({ ...lead, phone: e.target.value }))}
+              onChange={e => setLead(prev => ({ ...prev, phone: e.target.value }))}
               autoComplete="off"
             />
           </form>
@@ -109,7 +109,12 @@ export default function CheckoutModal() {
               <label key={item.id || idx} className={`block mb-3 p-2 bg-white rounded border ${selectedIndex===idx ? 'border-amber-300' : 'border-transparent'}`}>
                 <div className="flex justify-between items-start">
                   <div className="text-sm">
-                    <div className="font-semibold">{item.visaType}</div>
+                    <div className="font-semibold flex items-center gap-2">
+                      {item.visaType}
+                      <button type="button" aria-label="Remove" className="ml-1 text-slate-400 hover:text-red-600" onClick={e => { e.stopPropagation(); if(item?.id) removeFromCart(item.id); }}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                      </button>
+                    </div>
                     <div className="text-xs">Travel Date: <span className="font-medium">{item.travelDate}</span></div>
                     <div className="text-xs">Processing: <span className="font-medium">{item.processingType}</span></div>
                     <div className="text-xs">Count: <span className="font-medium">{item.count}</span></div>
@@ -118,7 +123,6 @@ export default function CheckoutModal() {
                     <div className="text-sm font-bold text-amber-500">AED <Price amountUSD={item.totalPrice} /></div>
                     <div className="mt-2 flex items-center gap-2">
                       <input type="radio" name="selectedItem" checked={selectedIndex===idx} onChange={()=>setSelectedIndex(idx)} />
-                      <button type="button" className="text-xs text-red-600" onClick={(e)=>{ e.stopPropagation(); if(item?.id) removeFromCart(item.id); }} aria-label="Remove">Remove</button>
                     </div>
                   </div>
                 </div>
