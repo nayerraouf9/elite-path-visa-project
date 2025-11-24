@@ -62,10 +62,66 @@ export default function CheckoutModal() {
 
   
 
+  const modalRef = React.useRef<HTMLDivElement | null>(null);
+
+  // Focus trap: keep focus inside the modal when open and restore on close
+  React.useEffect(() => {
+    if (!isCheckoutModalOpen) return;
+    const root = modalRef.current;
+    if (!root) return;
+    const prevActive = document.activeElement as HTMLElement | null;
+
+    const focusableSelector = 'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    function getFocusables() {
+      return Array.from(root.querySelectorAll(focusableSelector)) as HTMLElement[];
+    }
+
+    // focus first focusable element if nothing is focused inside modal
+    const focusables = getFocusables();
+    if (focusables.length > 0) {
+      const activeInside = root.contains(document.activeElement);
+      if (!activeInside) focusables[0].focus();
+    } else {
+      // fallback focus on root
+      try { root.focus(); } catch (e) {}
+    }
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== 'Tab') return;
+      const nodes = getFocusables();
+      if (nodes.length === 0) {
+        e.preventDefault();
+        return;
+      }
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey) {
+        if (!active || active === first || !root.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (!active || active === last || !root.contains(active)) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      // restore previous focus
+      try { if (prevActive && typeof prevActive.focus === 'function') prevActive.focus(); } catch (e) {}
+    };
+  }, [isCheckoutModalOpen]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40" onClick={()=>setIsCheckoutModalOpen(false)} />
-      <div className="relative w-full max-w-full p-4">
+      <div ref={modalRef} tabIndex={-1} className="relative w-full max-w-full p-4">
         <div className="flex justify-end mb-2">
           <button className="px-3 py-1 bg-white rounded" onClick={()=>setIsCheckoutModalOpen(false)}>Close</button>
         </div>
@@ -203,7 +259,7 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
           <div className="flex items-center gap-2 mb-4"><span className="text-amber-500"><i className="fa fa-file-invoice" /></span><span className="font-bold text-lg">Visa Cart Summary</span></div>
           {cartItems.length === 0 && <div className="text-sm text-slate-500">Your cart is empty.</div>}
           {cartItems.map((item:any, idx:number)=> (
-            <label data-index={idx} data-item-id={item.id} key={item.id || idx} className={`block mb-3 p-2 bg-white rounded border ${selectedIndex===idx ? 'border-amber-300' : 'border-transparent'}`}>
+            <label data-index={idx} data-item-id={item.id} key={item.id || idx} className={`block mb-3 p-2 bg-white rounded border focus-within:ring-2 focus-within:ring-blue-500 ${selectedIndex===idx ? 'border-amber-300 ring-2 ring-blue-500' : 'border-transparent'}`}>
               <div className="flex justify-between items-start">
                 <div className="text-sm">
                   <div className="font-semibold flex items-center gap-2">
@@ -219,7 +275,7 @@ function Step1({ lead, setLead, cartItems, selectedIndex, setSelectedIndex, remo
                 <div className="text-right">
                   <div className="text-sm font-bold text-amber-500">AED <Price amountUSD={item.totalPrice} /></div>
                   <div className="mt-2 flex items-center gap-2">
-                    <input type="radio" name="selectedItem" checked={selectedIndex===idx} onChange={()=>setSelectedIndex(idx)} />
+                    <input type="radio" className="mr-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" name="selectedItem" checked={selectedIndex===idx} onChange={()=>setSelectedIndex(idx)} />
                   </div>
                 </div>
               </div>
