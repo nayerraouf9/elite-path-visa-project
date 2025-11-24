@@ -1,7 +1,7 @@
-"use client"
-import CountryVisaPage from '../[country]/page'
+"use client";
+import CountryVisaPage from "../[country]/page";
 
-export default function UnitedStatesVisaPage(props:any){
+export default function UnitedStatesVisaPage(props: any) {
   // Pass the correct slug for dynamic content
-  return <CountryVisaPage params={{ country: 'united-states' }} />
+  return <CountryVisaPage params={{ country: "united-states" }} />;
 }

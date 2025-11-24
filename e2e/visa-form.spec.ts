@@ -10,23 +10,26 @@ test.describe('Visa search form validation', () => {
 
     const searchBtn = page.getByTestId('search-button');
 
-    // Clear selects by selecting the empty option using testids
     const visaFor = page.getByTestId('visa-for-select');
     const countryTo = page.getByTestId('country-to-select');
     const nationality = page.getByTestId('nationality-select');
     const living = page.getByTestId('living-select');
-    await visaFor.selectOption('');
-    await countryTo.selectOption('');
-    await nationality.selectOption('');
-    await living.selectOption('');
-    // Clear the hidden date input directly (sr-only clear button is not clickable in headless)
+
+    // Assert selects default to the placeholder value (empty)
+    await expect(visaFor.inputValue()).resolves.toBe('');
+    await expect(countryTo.inputValue()).resolves.toBe('');
+    await expect(nationality.inputValue()).resolves.toBe('');
+    await expect(living.inputValue()).resolves.toBe('');
+
+    // Clear the hidden date input directly
     await page.fill('input[data-testid="travel-date-input"]', '');
 
-    // Wait a tick for React updates
-    await page.waitForTimeout(200);
-
-    await expect(searchBtn).toBeDisabled();
-    await expect(page.getByText('Please fill all fields to search.')).toBeVisible();
+    // Try submitting with empty fields and expect validation alert
+    await searchBtn.click();
+    await expect(page.getByText('Please Select Visa For.')).toBeVisible();
+    // Dismiss alert
+    await page.getByRole('button', { name: /ok/i }).click();
+    await expect(page.getByText('Please Select Visa For.')).not.toBeVisible();
 
     // Fill the selects with valid values using testids
     await visaFor.selectOption('Tourist');
@@ -38,7 +41,9 @@ test.describe('Visa search form validation', () => {
     await page.fill('input[data-testid="travel-date-input"]', '2025-12-25');
     await page.waitForTimeout(200);
 
-    await expect(searchBtn).toBeEnabled();
-    await expect(page.getByText('Please fill all fields to search.')).not.toBeVisible();
+    // Submit and expect navigation to the country page
+    await searchBtn.click();
+    await page.waitForURL('**/visas/austria');
+    await expect(page.url()).toContain('/visas/austria');
   });
 });

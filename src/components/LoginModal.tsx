@@ -23,8 +23,25 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div className="login-popup" style={{ maxHeight: 'none', height: 'auto', overflow: 'visible', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+    <div
+      className="modal-overlay"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        className="login-popup"
+        style={{
+          maxHeight: "none",
+          height: "auto",
+          overflow: "visible",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+        }}
+      >
         {/* Close button */}
         <button className="close-btn" onClick={onClose} aria-label="Close">
           ✕
@@ -47,20 +64,34 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         </div>
 
         {/* Content */}
-        <div className="popup-content" style={{ overflow: 'visible', maxHeight: 'none' }}>
+        <div
+          className="popup-content"
+          style={{ overflow: "visible", maxHeight: "none" }}
+        >
           {activeTab === "LOGIN NOW" && (
             <>
               <p className="description">
-                Sign in to unlock a world of rewards - accumulate Rayna Tours Loyalty
-                points or snag exclusive discounts on your booked travel experiences!
+                Sign in to unlock a world of rewards - accumulate Rayna Tours
+                Loyalty points or snag exclusive discounts on your booked travel
+                experiences!
               </p>
 
               <button className="social-btn">
-                <img src="/google-icon.png" alt="Google" style={{ width: 20, height: 20, objectFit: 'contain' }} /> Sign In with Google
+                <img
+                  src="/google-icon.png"
+                  alt="Google"
+                  style={{ width: 20, height: 20, objectFit: "contain" }}
+                />{" "}
+                Sign In with Google
               </button>
 
               <button className="social-btn">
-                <img src="/facebook-icon.png" alt="Facebook" style={{ width: 20, height: 20, objectFit: 'contain' }} /> Sign In with Facebook
+                <img
+                  src="/facebook-icon.png"
+                  alt="Facebook"
+                  style={{ width: 20, height: 20, objectFit: "contain" }}
+                />{" "}
+                Sign In with Facebook
               </button>
 
               {/* Divider */}
@@ -118,7 +149,13 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 placeholder="Booking Reference Number"
               />
 
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: 24 }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: 24,
+                }}
+              >
                 <button className="booking-submit-btn">SUBMIT</button>
               </div>
             </>

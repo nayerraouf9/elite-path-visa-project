@@ -6,7 +6,7 @@ import CheckoutModal from '../src/components/CheckoutModal'
 
 export default function AustraliaVisaPage(){
   const [processing, setProcessing] = useState('')
-  const [travelDate, setTravelDate] = useState('')
+  const [travelDate, setTravelDate] = useState<string | null>(null)
   const [count, setCount] = useState('')
 
   const handleCountChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -81,7 +81,7 @@ export default function AustraliaVisaPage(){
                 <label className="flex flex-col text-sm">
                   <span className="text-slate-500 text-xs mb-1">Processing Type</span>
                   <select value={processing} onChange={(e)=>setProcessing(e.target.value)} className="px-3 py-2 rounded-md border border-slate-200 bg-white text-sm focus:outline-none">
-                    <option value="">Select</option>
+                    <option value="" disabled>Processing Type</option>
                     <option>Normal</option>
                     <option>Express</option>
                   </select>
