@@ -9,15 +9,21 @@ type CurrencyState = {
 const CurrencyContext = createContext<CurrencyState | undefined>(undefined);
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
-  const [currency, setCurrencyState] = useState<string>(() => {
+  // Start with the server-safe default so server-rendered HTML matches the
+  // initial client render. Read the persisted value only after mount to avoid
+  // hydration mismatches when localStorage differs from the server-default.
+  const [currency, setCurrencyState] = useState<string>("AED");
+
+  useEffect(() => {
     try {
       const stored = localStorage.getItem("ep_currency");
-      return stored ?? "AED";
+      if (stored && stored !== currency) setCurrencyState(stored);
     } catch (e) {
-      // localStorage isn't available during SSR; fall back to default
-      return "AED";
+      // ignore
     }
-  });
+    // run only on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setCurrency = (c: string) => {
     setCurrencyState(c);
