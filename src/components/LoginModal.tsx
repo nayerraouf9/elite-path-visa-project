@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import "../styles/LoginModal.css";
 
 interface LoginModalProps {
@@ -77,19 +78,23 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               </p>
 
               <button className="social-btn">
-                <img
+                <Image
                   src="/google-icon.png"
                   alt="Google"
-                  style={{ width: 20, height: 20, objectFit: "contain" }}
+                  width={20}
+                  height={20}
+                  style={{ objectFit: "contain" }}
                 />{" "}
                 Sign In with Google
               </button>
 
               <button className="social-btn">
-                <img
+                <Image
                   src="/facebook-icon.png"
                   alt="Facebook"
-                  style={{ width: 20, height: 20, objectFit: "contain" }}
+                  width={20}
+                  height={20}
+                  style={{ objectFit: "contain" }}
                 />{" "}
                 Sign In with Facebook
               </button>

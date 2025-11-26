@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { useCart } from "../context/CartContext";
 import UndoToast from "./UndoToast";
 import Price from "./Price";
@@ -682,10 +683,12 @@ function Step3({
                 className="mr-2"
               />
               <span className="font-semibold">Pointspay</span>
-              <img
+              <Image
                 src="/etihad-logo.png"
                 alt="Etihad Guestpay"
-                className="h-6 ml-2"
+                width={24}
+                height={24}
+                className="ml-2"
               />
             </label>
             <div className="text-xs text-orange-600 mt-2">
