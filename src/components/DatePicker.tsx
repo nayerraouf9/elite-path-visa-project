@@ -23,22 +23,17 @@ function toDate(value: string | null) {
 
 export default function DatePicker({ value, onChange }: Props) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<Date | null>(() =>
-    value ? toDate(value) : null,
-  );
+  const selected = value ? toDate(value) : null;
   const [viewDate, setViewDate] = useState<Date>(() =>
-    selected
-      ? new Date(selected.getFullYear(), selected.getMonth(), 1)
-      : new Date(),
+    value ? new Date(new Date(value).getFullYear(), new Date(value).getMonth(), 1) : new Date(),
   );
   const [transitionDirection, setTransitionDirection] = useState<
     "left" | "right" | "none"
   >("none");
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    setSelected(value ? toDate(value) : null);
-  }, [value]);
+  // `selected` is derived from the `value` prop so no effect is required to
+  // synchronise it and we avoid calling setState inside an effect.
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
@@ -60,7 +55,6 @@ export default function DatePicker({ value, onChange }: Props) {
   }
 
   function selectDay(day: Date) {
-    setSelected(day);
     // Only update input, don't close picker
     onChange(
       `${day.getFullYear()}-${pad(day.getMonth() + 1)}-${pad(day.getDate())}`,

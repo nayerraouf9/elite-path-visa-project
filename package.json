@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "test": "vitest --environment jsdom src",
     "test:e2e": "playwright test"
   },
@@ -24,6 +24,8 @@
     "@types/node": "24.10.1",
     "@types/react": "19.2.6",
     "autoprefixer": "^10.4.14",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.0.4",
     "jsdom": "^27.2.0",
     "pixelmatch": "^7.1.0",
     "pngjs": "^7.0.0",
@@ -35,8 +37,13 @@
   "vitest": {
     "test": {
       "environment": "jsdom",
-      "include": ["src/**/*.test.*", "src/**/__tests__/**"],
-      "setupFiles": ["src/setupTests.ts"]
+      "include": [
+        "src/**/*.test.*",
+        "src/**/__tests__/**"
+      ],
+      "setupFiles": [
+        "src/setupTests.ts"
+      ]
     }
   }
 }

@@ -9,16 +9,15 @@ type CurrencyState = {
 const CurrencyContext = createContext<CurrencyState | undefined>(undefined);
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
-  const [currency, setCurrencyState] = useState<string>("AED");
-
-  useEffect(() => {
+  const [currency, setCurrencyState] = useState<string>(() => {
     try {
       const stored = localStorage.getItem("ep_currency");
-      if (stored) setCurrencyState(stored);
+      return stored ?? "AED";
     } catch (e) {
-      /* ignore in SSR */
+      // localStorage isn't available during SSR; fall back to default
+      return "AED";
     }
-  }, []);
+  });
 
   const setCurrency = (c: string) => {
     setCurrencyState(c);
